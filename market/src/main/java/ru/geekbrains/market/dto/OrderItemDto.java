@@ -13,6 +13,7 @@ public class OrderItemDto {
     private int quantity;
     private double costPerProduct;
     private double cost;
+    private Long orderId;
 
     public OrderItemDto(OrderItem orderItem) {
         this.id = orderItem.getProduct().getId();
@@ -20,5 +21,6 @@ public class OrderItemDto {
         this.quantity = orderItem.getQuantity();
         this.costPerProduct = orderItem.getCostPerProduct();
         this.cost = orderItem.getCost();
+        //this.orderId = orderItem.getOrderId();
     }
 }
