@@ -28,6 +28,10 @@ public class OrderItem {
     @Column(name = "cost")
     private double cost;
 
+    @ManyToOne (optional = false, cascade = CascadeType.ALL)
+    @JoinColumn (name="order_id")
+    private Order order;
+
     public OrderItem(Product product) {
         this.product = product;
         this.quantity = 1;

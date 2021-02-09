@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.market.exceptions_handling.ResourceNotFoundException;
+import ru.geekbrains.market.model.Order;
 import ru.geekbrains.market.model.OrderItem;
 import ru.geekbrains.market.model.Product;
+import ru.geekbrains.market.repositories.OrderRepository;
 import ru.geekbrains.market.services.ProductService;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ public class Cart {
     private final ProductService productService;
     private List<OrderItem> items;
     private double totalCost;
+    private final OrderRepository orderRepository;
 
     @PostConstruct
     private void init() {
@@ -80,4 +83,14 @@ public class Cart {
         }
     }
 
+    public Long createOrder(String userName) {
+        Order order = new Order();
+        order.setClient(userName);
+        order.setCost(totalCost);
+        order.setItems(items);
+        orderRepository.save(order);
+        System.out.println(order);
+        System.out.println(order.getId());
+        return order.getId();
+    }
 }
