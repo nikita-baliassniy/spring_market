@@ -2,8 +2,11 @@ package ru.geekbrains.market.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
@@ -16,8 +19,15 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "quantity")
     private int quantity;
@@ -28,9 +38,13 @@ public class OrderItem {
     @Column(name = "cost")
     private double cost;
 
-    @ManyToOne (optional = false, cascade = CascadeType.ALL)
-    @JoinColumn (name="order_id")
-    private Order order;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public OrderItem(Product product) {
         this.product = product;

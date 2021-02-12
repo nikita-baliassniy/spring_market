@@ -13,7 +13,9 @@ import ru.geekbrains.market.model.User;
 import ru.geekbrains.market.repositories.UserRepository;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -35,5 +38,17 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    public User addNewCommonUser(String username, String password, String email) {
+        if (userRepository.findByUsername(username).isEmpty()) {
+            User newUser = new User(username, password, email);
+            //userRepository.save(newUser);
+            Role commonRole = roleService.getRoleByName("ROLE_USER");
+            newUser.setRoles(new ArrayList<>(List.of(commonRole)));
+            userRepository.save(newUser);
+            return newUser;
+        } else
+            return null;
     }
 }

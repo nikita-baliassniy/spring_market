@@ -33,26 +33,25 @@ VALUES
 ('bag', 310.45),
 ('pen', 65.05);
 
-CREATE TABLE order_items (
-    id                      bigserial PRIMARY KEY,
-    title                   varchar(255),
-    quantity                int,
-    cost_per_item           numeric(6, 2),
-    cost                    numeric(6, 2)
-);
-
-CREATE TABLE orders (
-    id                      bigserial PRIMARY KEY,
-    client                  varchar(30) not null,
-    total_cost              numeric(6, 2),
-    created_at              timestamp default current_timestamp
-);
-
 CREATE TABLE users (
     id                      bigserial primary key,
     username                varchar(30) not null unique,
     password                varchar(80) not null,
     email                   varchar(50) unique,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
+);
+
+CREATE TABLE addresses (
+    id                      bigserial primary key,
+    address                 varchar(255) not null
+);
+
+CREATE TABLE orders (
+    id                      bigserial PRIMARY KEY,
+    owner_id                bigint references users (id),
+    total_cost              numeric(6, 2),
+    address_id              bigint references addresses (id),
     created_at              timestamp default current_timestamp,
     updated_at              timestamp default current_timestamp
 );
@@ -68,6 +67,18 @@ CREATE TABLE users_roles (
     user_id                 bigint not null references users (id),
     role_id                 bigint not null references roles (id),
     primary key (user_id, role_id)
+);
+
+CREATE TABLE order_items (
+    id                      bigserial PRIMARY KEY,
+    order_id                bigint references orders (id),
+    product_id              bigint references products (id),
+    title                   varchar(255),
+    quantity                int,
+    cost_per_product        numeric(6, 2),
+    cost                    numeric(6, 2),
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
 );
 
 insert into roles (name)
