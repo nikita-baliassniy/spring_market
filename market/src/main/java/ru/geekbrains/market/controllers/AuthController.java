@@ -9,11 +9,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.market.beans.JwtTokenUtil;
+import ru.geekbrains.market.configs.SecurityConfig;
 import ru.geekbrains.market.dto.JwtRequest;
 import ru.geekbrains.market.dto.JwtResponse;
 import ru.geekbrains.market.exceptions_handling.MarketError;
+import ru.geekbrains.market.model.User;
 import ru.geekbrains.market.services.UserService;
 
 @RestController
@@ -22,6 +25,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final SecurityConfig securityConfig;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -34,4 +38,12 @@ public class AuthController {
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User registerNewUser(@RequestBody User user) {
+        return userService.addNewCommonUser(user.getUsername(), securityConfig.passwordEncoder().encode(user.getPassword()),
+                user.getEmail());
+    }
+
 }

@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.market.exceptions_handling.ResourceNotFoundException;
-import ru.geekbrains.market.model.Order;
 import ru.geekbrains.market.model.OrderItem;
 import ru.geekbrains.market.model.Product;
 import ru.geekbrains.market.repositories.OrderRepository;
@@ -45,11 +44,11 @@ public class Cart {
         recalculate();
     }
 
-    public synchronized void removeFromCart(Long id) {
+    public void removeFromCart(Long id) {
         ListIterator<OrderItem> iterator = items.listIterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             OrderItem currentOrderItem = iterator.next();
-            if(currentOrderItem.getProduct().getId().equals(id)) {
+            if (currentOrderItem.getProduct().getId().equals(id)) {
                 if (currentOrderItem.getQuantity() > 1) {
                     currentOrderItem.decrementQuantity();
                 } else if (currentOrderItem.getQuantity() == 1) {
@@ -60,11 +59,11 @@ public class Cart {
         }
     }
 
-    public synchronized void removeFromCartTotally(Long id) {
+    public void removeFromCartTotally(Long id) {
         ListIterator<OrderItem> iterator = items.listIterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             OrderItem currentOrderItem = iterator.next();
-            if(currentOrderItem.getProduct().getId().equals(id)) {
+            if (currentOrderItem.getProduct().getId().equals(id)) {
                 iterator.remove();
                 break;
             }
@@ -81,16 +80,5 @@ public class Cart {
         for (OrderItem o : items) {
             totalCost += o.getCost();
         }
-    }
-
-    public Long createOrder(String userName) {
-        Order order = new Order();
-        order.setClient(userName);
-        order.setCost(totalCost);
-        order.setItems(items);
-        orderRepository.save(order);
-        System.out.println(order);
-        System.out.println(order.getId());
-        return order.getId();
     }
 }
