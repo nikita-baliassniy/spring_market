@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.geekbrains.market.exceptions_handling.ResourceNotFoundException;
 import ru.geekbrains.market.model.Role;
 import ru.geekbrains.market.model.User;
 import ru.geekbrains.market.repositories.UserRepository;
@@ -43,12 +44,10 @@ public class UserService implements UserDetailsService {
     public User addNewCommonUser(String username, String password, String email) {
         if (userRepository.findByUsername(username).isEmpty()) {
             User newUser = new User(username, password, email);
-            //userRepository.save(newUser);
             Role commonRole = roleService.getRoleByName("ROLE_USER");
             newUser.setRoles(new ArrayList<>(List.of(commonRole)));
-            userRepository.save(newUser);
-            return newUser;
+            return userRepository.save(newUser);
         } else
-            return null;
+            throw new ResourceNotFoundException("Error appeared while creating a new user");
     }
 }

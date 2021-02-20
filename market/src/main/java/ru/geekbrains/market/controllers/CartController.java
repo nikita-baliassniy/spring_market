@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.market.beans.Cart;
 import ru.geekbrains.market.dto.CartDto;
-import ru.geekbrains.market.services.ProductService;
-import ru.geekbrains.market.services.UserService;
 
 
 @RestController

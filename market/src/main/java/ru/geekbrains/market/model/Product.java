@@ -24,8 +24,8 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "cost")
-    private double cost;
+    @Column(name = "price")
+    private double price;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -37,6 +37,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("[Product %d, title: %s, cost: %f]", id, title, cost);
+        return String.format("[Product %d, title: %s, price: %f]", id, title, price);
     }
 }

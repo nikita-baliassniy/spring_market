@@ -21,8 +21,7 @@ import java.util.ListIterator;
 public class Cart {
     private final ProductService productService;
     private List<OrderItem> items;
-    private double totalCost;
-    private final OrderRepository orderRepository;
+    private double totalPrice;
 
     @PostConstruct
     private void init() {
@@ -76,9 +75,9 @@ public class Cart {
     }
 
     public void recalculate() {
-        totalCost = 0;
+        totalPrice = 0;
         for (OrderItem o : items) {
-            totalCost += o.getCost();
+            totalPrice += o.getPrice();
         }
     }
 }

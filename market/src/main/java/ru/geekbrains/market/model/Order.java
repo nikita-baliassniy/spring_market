@@ -26,8 +26,8 @@ public class Order {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @Column(name = "total_cost")
-    private double cost;
+    @Column(name = "total_price")
+    private double price;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -41,12 +41,11 @@ public class Order {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
+    @Column(name = "address")
+    private String address;
 
-    public Order(Cart cart, User user, Address address) {
-        this.cost = cart.getTotalCost();
+    public Order(Cart cart, User user, String address) {
+        this.price = cart.getTotalPrice();
         this.owner = user;
         this.items = new ArrayList<>();
         this.address = address;
