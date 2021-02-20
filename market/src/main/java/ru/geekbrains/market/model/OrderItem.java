@@ -32,11 +32,11 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "cost_per_product")
-    private double costPerProduct;
+    @Column(name = "price_per_product")
+    private double pricePerProduct;
 
-    @Column(name = "cost")
-    private double cost;
+    @Column(name = "price")
+    private double price;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -49,17 +49,17 @@ public class OrderItem {
     public OrderItem(Product product) {
         this.product = product;
         this.quantity = 1;
-        this.costPerProduct = product.getCost();
-        this.cost = this.costPerProduct;
+        this.pricePerProduct = product.getPrice();
+        this.price = this.pricePerProduct;
     }
 
     public void incrementQuantity() {
         quantity++;
-        cost = quantity * costPerProduct;
+        price = quantity * pricePerProduct;
     }
 
     public void decrementQuantity() {
         quantity--;
-        cost = quantity * costPerProduct;
+        price = quantity * pricePerProduct;
     }
 }

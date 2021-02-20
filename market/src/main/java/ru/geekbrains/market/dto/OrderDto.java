@@ -9,16 +9,16 @@ import ru.geekbrains.market.model.Order;
 public class OrderDto {
     private Long id;
     private String username;
-    private double totalCost;
+    private double totalPrice;
     private String address;
     private String creationDateTime;
 
     public OrderDto(Order order) {
         this.username = order.getOwner().getUsername();
-        this.totalCost = order.getCost();
+        this.totalPrice = order.getPrice();
         this.creationDateTime = order.getCreatedAt().toString();
         this.id = order.getId();
-        this.address = order.getAddress().getAddress();
+        this.address = order.getAddress();
     }
 
 }

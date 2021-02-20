@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.market.dto.OrderDto;
 import ru.geekbrains.market.exceptions_handling.ResourceNotFoundException;
-import ru.geekbrains.market.model.Address;
+import ru.geekbrains.market.model.Order;
 import ru.geekbrains.market.model.User;
 import ru.geekbrains.market.services.OrderService;
 import ru.geekbrains.market.services.UserService;
@@ -23,16 +23,18 @@ public class OrderController {
     private final UserService userService;
     private final OrderService orderService;
 
-    /**
-     * Понятно, что для одного string адреса не обязательно было создавать отдельную модель, но создал с расчетом на то,
-     * что потом там будут отдельные поля для города, индекса, дома, квартиры и т.д.
-     */
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrderFromCart(Principal principal, @RequestBody Address address) {
-        User user = userService.findByUsername(principal.getName()).orElseThrow(() ->
-                new ResourceNotFoundException("User not found " + principal.getName()));
-        orderService.createFromUserCart(user, address);
+    public OrderDto createOrderFromCart(Principal principal, @RequestParam String address) {
+        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Order order = orderService.createFromUserCart(user, address);
+        return new OrderDto(order);
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable Long id) {
+        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        return new OrderDto(order);
     }
 
     @GetMapping

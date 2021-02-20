@@ -5,12 +5,12 @@ DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products (
     id                  bigserial PRIMARY KEY,
     title               VARCHAR(255),
-    cost                numeric(6, 2),
+    price                numeric(6, 2),
     created_at          timestamp default current_timestamp,
     updated_at          timestamp default current_timestamp
 );
 
-INSERT INTO products (title, cost)
+INSERT INTO products (title, price)
 VALUES
 ('milk', 79.90),
 ('bread', 24.90),
@@ -42,16 +42,11 @@ CREATE TABLE users (
     updated_at              timestamp default current_timestamp
 );
 
-CREATE TABLE addresses (
-    id                      bigserial primary key,
-    address                 varchar(255) not null
-);
-
 CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,
     owner_id                bigint references users (id),
-    total_cost              numeric(6, 2),
-    address_id              bigint references addresses (id),
+    total_price             numeric(6, 2),
+    address                 varchar(255),
     created_at              timestamp default current_timestamp,
     updated_at              timestamp default current_timestamp
 );
@@ -75,8 +70,8 @@ CREATE TABLE order_items (
     product_id              bigint references products (id),
     title                   varchar(255),
     quantity                int,
-    cost_per_product        numeric(6, 2),
-    cost                    numeric(6, 2),
+    price_per_product        numeric(6, 2),
+    price                    numeric(6, 2),
     created_at              timestamp default current_timestamp,
     updated_at              timestamp default current_timestamp
 );

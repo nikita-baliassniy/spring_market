@@ -46,7 +46,7 @@ public class ProductService {
             productToAdd = new Product();
         }
         productToAdd.setTitle(product.getTitle());
-        productToAdd.setCost(product.getCost());
+        productToAdd.setPrice(product.getPrice());
         return new ProductDto(productRepository.save(productToAdd));
     }
 

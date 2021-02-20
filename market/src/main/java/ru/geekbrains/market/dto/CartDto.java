@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CartDto {
     private List<OrderItemDto> items;
-    private double totalCost;
+    private double totalPrice;
 
     public CartDto(Cart cart) {
-        this.totalCost = cart.getTotalCost();
+        this.totalPrice = cart.getTotalPrice();
         this.items = cart.getItems().stream().map(OrderItemDto::new).collect(Collectors.toList());
     }
 }

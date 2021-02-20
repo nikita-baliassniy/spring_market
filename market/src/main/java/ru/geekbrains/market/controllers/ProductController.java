@@ -16,7 +16,7 @@ import ru.geekbrains.market.services.ProductService;
 public class ProductController {
     private final ProductService productService;
 
-    // http://localhost:8189/market/products?min_cost=30&max_cost=400
+    // http://localhost:8189/market/products?min_price=30&max_price=400
     @GetMapping
     public Page<ProductDto> getAllProducts(@RequestParam MultiValueMap<String, String> params,
                                            @RequestParam(name = "p", defaultValue = "1") Integer page) {
@@ -41,8 +41,8 @@ public class ProductController {
         return productService.saveOrUpdate(product);
     }
 
-    // @RequestParam Long id, @RequestParam String title, @RequestParam double cost
-    // http://localhost:8189/app/products?id=21&title=abricot&cost=100
+    // @RequestParam Long id, @RequestParam String title, @RequestParam double price
+    // http://localhost:8189/app/products?id=21&title=abricot&price=100
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto saveNewProduct(@RequestBody ProductDto newProduct) {
