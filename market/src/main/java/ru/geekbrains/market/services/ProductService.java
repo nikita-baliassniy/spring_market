@@ -11,9 +11,12 @@ import ru.geekbrains.market.dto.ProductDto;
 import ru.geekbrains.market.model.Product;
 import ru.geekbrains.market.repositories.ProductRepository;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +36,10 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
     }
 
+    public List<Product> findAll () {
+        return productRepository.findAll();
+    }
+
     public void deleteById(Long id) {
         productRepository.deleteById(id);
     }
@@ -48,6 +55,31 @@ public class ProductService {
         productToAdd.setTitle(product.getTitle());
         productToAdd.setPrice(product.getPrice());
         return new ProductDto(productRepository.save(productToAdd));
+    }
+
+    public static final Function<Product, ru.geekbrains.market.soap.products.Product> functionEntityToSoap = se -> {
+        ru.geekbrains.market.soap.products.Product product =
+                new ru.geekbrains.market.soap.products.Product();
+        product.setId(se.getId());
+        product.setTitle(se.getTitle());
+        product.setPrice(se.getPrice());
+        try {
+            product.setCreatedAt(DatatypeFactory.newInstance().newXMLGregorianCalendar(
+                    se.getCreatedAt().toString()));
+            product.setUpdatedAt(DatatypeFactory.newInstance().newXMLGregorianCalendar(
+                    se.getUpdatedAt().toString()));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+        return product;
+    };
+
+    public List<ru.geekbrains.market.soap.products.Product> getAllProducts() {
+        return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
+    }
+
+    public ru.geekbrains.market.soap.products.Product getById(Long id) {
+        return productRepository.findById(id).map(functionEntityToSoap).get();
     }
 
 }
