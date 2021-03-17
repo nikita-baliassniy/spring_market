@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PRODUCTS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h1 class="display-4">Список всех товаров:</h1> <br>
+<table class="table-sm table-secondary table-bordered" th:if="${products.size() > 0}">
+    <thead class="table-dark">
+    <tr>
+        <td>Id</td>
+        <td>Название</td>
+        <td>Стоимость</td>
+    </tr>
+    </thead>
+    <tbody class="">
+    <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.title}"></td>
+        <td th:text="${p.price}"></td>
+    </tr>
+    </tbody>
+</table>
+<span th:unless="${products.size() > 0}">Товаров вовсе нет</span>
+</body>
+</html>
