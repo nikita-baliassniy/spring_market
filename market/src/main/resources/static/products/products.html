@@ -7,11 +7,11 @@
         </div>
         <div class="form-group col-md-3">
             <label for="filterMinPrice">Минимальная цена</label>
-            <input class="form-control" type="number" step="0.01" min="0.01" ng-model="filter.min_price" id="filterMinPrice">
+            <input class="form-control" type="number" ng-model="filter.min_price" id="filterMinPrice">
         </div>
         <div class="form-group col-md-3">
             <label for="filterMaxPrice">Максимальная цена</label>
-            <input class="form-control" type="number" step="0.01" min="0.01" ng-model="filter.max_price" id="filterMaxPrice">
+            <input class="form-control" type="number" ng-model="filter.max_price" id="filterMaxPrice">
         </div>
     </div>
     <div>
@@ -33,7 +33,8 @@
         <td>{{p.title}}</td>
         <td>{{p.price}}</td>
         <td>
-            <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+<!--            <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>-->
+            <button class="btn btn-primary" ng-click="addToCartJS(p.id)">Добавить в JS</button>
         </td>
     </tr>
     </tbody>
