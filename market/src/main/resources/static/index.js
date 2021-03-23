@@ -38,6 +38,10 @@
     }
 
     function run($rootScope, $http, $localStorage) {
+        if (!$localStorage.marketCart) {
+            $localStorage.marketCart = new Cart();
+        }
+
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }

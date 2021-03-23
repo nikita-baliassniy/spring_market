@@ -22,16 +22,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="btn btn-outline-warning" href="#!/">Главная</a>
+                        <a class="nav-link" href="#!/">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-warning" href="#!/products">Каталог товаров</a>
+                        <a class="nav-link" href="#!/products">Каталог товаров</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-warning" href="#!/orders" ng-if="isUserLoggedIn()">Мои заказы</a>
+                        <a class="nav-link" href="#!/orders" ng-if="isUserLoggedIn()">Мои заказы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-warning" href="#!/cart">Корзина</a>
+                        <a class="nav-link" href="#!/cart">Корзина</a>
                     </li>
                     <li class="nav-item" ng-show="!isUserLoggedIn()">
                         <form class="align-middle" ng-submit="tryToAuth()">
@@ -61,6 +61,8 @@
 
     <ng-view></ng-view>
 
+    <script src="order_item.js"></script>
+    <script src="cart_class.js"></script>
     <script src="index.js"></script>
     <script src="home/home.js"></script>
     <script src="products/products.js"></script>
