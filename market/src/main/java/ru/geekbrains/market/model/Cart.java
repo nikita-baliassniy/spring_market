@@ -45,7 +45,7 @@ public class Cart {
         ListIterator<CartItem> iterator = items.listIterator();
         while (iterator.hasNext()) {
             CartItem cartItem = iterator.next();
-            if (cartItem.getProduct().getId().equals(id)) {
+            if (cartItem.getId().equals(id)) {
                 if (cartItem.getQuantity() > 1) {
                     cartItem.decrementQuantity();
                 } else if (cartItem.getQuantity() == 1) {
@@ -60,7 +60,7 @@ public class Cart {
         ListIterator<CartItem> iterator = items.listIterator();
         while (iterator.hasNext()) {
             CartItem cartItem = iterator.next();
-            if (cartItem.getProduct().getId().equals(id)) {
+            if (cartItem.getId().equals(id)) {
                 iterator.remove();
                 recalculate();
                 break;
