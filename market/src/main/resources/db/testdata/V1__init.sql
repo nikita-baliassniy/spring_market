@@ -108,4 +108,8 @@ values
 (1, 1),
 (2, 2);
 
+insert into orders (id, owner_id, total_price, address)
+values
+(1, 1, 1200.00, 'Ленина, 22');
+
 COMMIT;
